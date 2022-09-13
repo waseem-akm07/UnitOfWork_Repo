@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Practice2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="CourseId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CourseName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DepartmentName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmployeeName" Type="varchar" MaxLength="50" />
+          <Property Name="EmployeeAddress" Type="varchar" MaxLength="50" />
+          <Property Name="CompanyId" Type="varchar" MaxLength="50" />
+          <Property Name="DepartmentId" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="EmployeeCourse">
+          <Key>
+            <PropertyRef Name="EmployeeCourseId" />
+          </Key>
+          <Property Name="EmployeeCourseId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmployeeId" Type="varchar" MaxLength="50" />
+          <Property Name="CourseId" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Employee_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeCourse_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EmployeeCourse" Type="Self.EmployeeCourse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="EmployeeCourse">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeCourse_EmployeeCourse">
+          <End Role="Course" Type="Self.Course" Multiplicity="0..1" />
+          <End Role="EmployeeCourse" Type="Self.EmployeeCourse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseId" />
+            </Principal>
+            <Dependent Role="EmployeeCourse">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Practice2ModelStoreContainer">
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeCourse" EntityType="Self.EmployeeCourse" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Employee_Company" Association="Self.FK_Employee_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Department" Association="Self.FK_Employee_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeCourse_Employee" Association="Self.FK_EmployeeCourse_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeCourse" EntitySet="EmployeeCourse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeCourse_EmployeeCourse" Association="Self.FK_EmployeeCourse_EmployeeCourse">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="EmployeeCourse" EntitySet="EmployeeCourse" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Practice2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Company" FromRole="Company" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="CourseId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CourseName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EmployeeCourses" Relationship="Self.FK_EmployeeCourse_EmployeeCourse" FromRole="Course" ToRole="EmployeeCourse" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Department" FromRole="Department" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmployeeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DepartmentId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_Employee_Company" FromRole="Employee" ToRole="Company" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="EmployeeCourses" Relationship="Self.FK_EmployeeCourse_Employee" FromRole="Employee" ToRole="EmployeeCourse" />
+        </EntityType>
+        <EntityType Name="EmployeeCourse">
+          <Key>
+            <PropertyRef Name="EmployeeCourseId" />
+          </Key>
+          <Property Name="EmployeeCourseId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmployeeId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CourseId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Course" Relationship="Self.FK_EmployeeCourse_EmployeeCourse" FromRole="EmployeeCourse" ToRole="Course" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_EmployeeCourse_Employee" FromRole="EmployeeCourse" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_Employee_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeCourse_EmployeeCourse">
+          <End Role="Course" Type="Self.Course" Multiplicity="0..1" />
+          <End Role="EmployeeCourse" Type="Self.EmployeeCourse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseId" />
+            </Principal>
+            <Dependent Role="EmployeeCourse">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeCourse_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EmployeeCourse" Type="Self.EmployeeCourse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="EmployeeCourse">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Practice2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Companies" EntityType="Self.Company" />
+          <EntitySet Name="Courses" EntityType="Self.Course" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="EmployeeCourses" EntityType="Self.EmployeeCourse" />
+          <AssociationSet Name="FK_Employee_Company" Association="Self.FK_Employee_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeCourse_EmployeeCourse" Association="Self.FK_EmployeeCourse_EmployeeCourse">
+            <End Role="Course" EntitySet="Courses" />
+            <End Role="EmployeeCourse" EntitySet="EmployeeCourses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Department" Association="Self.FK_Employee_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeCourse_Employee" Association="Self.FK_EmployeeCourse_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeCourse" EntitySet="EmployeeCourses" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Practice2ModelStoreContainer" CdmEntityContainer="Practice2Entities">
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="Practice2Model.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="Practice2Model.Course">
+              <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="Practice2Model.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="Practice2Model.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="EmployeeAddress" ColumnName="EmployeeAddress" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeCourses">
+            <EntityTypeMapping TypeName="Practice2Model.EmployeeCourse">
+              <MappingFragment StoreEntitySet="EmployeeCourse">
+                <ScalarProperty Name="EmployeeCourseId" ColumnName="EmployeeCourseId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

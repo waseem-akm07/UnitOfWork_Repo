@@ -1,0 +1,26 @@
+﻿
+					*********** Unit Of Work with Repository, GUID **************
+
+					It is used to group one or more operations (usually database operations) into a single transaction 
+						or “unit of work”, so that all operations either pass or fail as one.
+					It follow Two steps-
+					  In First step it update in-memory all Oprations(Display/Save/update/Delete).
+					  In Second step send in-memory updates to the database in single transaction.
+					
+				    In Other Words,
+					Use of separate repository for a single transaction could result in partial updates. For example, 
+					   suppose you have to update two different entity types as part of the same transaction. If each 
+					   uses a separate database context instance, one might succeed and the other might fail, and one 
+					   way to ensure that all repositories use the same database context (and thus coordinate all updates)
+					   is to use a unit of work class.
+				   
+
+														 -- STEPS --
+					1- Create your Main Project ex:- "UnitOfWork_Repo_GUID".
+					2- Create DataAccessLayer to performing CRUD Opration in your database.
+					3- Create BusinessAccessLayer to write all the CRUD Opration Logic and refrence of "DataAccessLayer" and "DataTransferObject".
+					4- Create DataTransferObject Layer to send the data to View and database.
+					5- Create UnitOfWork Layer to apply "Unit Of Work and add refrence of "BusinessAccessLayer".
+					   At last after completing at all add refrence of "UnitOfWork" in "UnitOfWork_Repo_GUID".
+
+

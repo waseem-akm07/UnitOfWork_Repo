@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Practice2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="CompanyId" />
+    </Key>
+    <Property Name="CompanyId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Company" FromRole="Company" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="CourseId" />
+    </Key>
+    <Property Name="CourseId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CourseName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="EmployeeCourses" Relationship="Self.FK_EmployeeCourse_EmployeeCourse" FromRole="Course" ToRole="EmployeeCourse" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="DepartmentId" />
+    </Key>
+    <Property Name="DepartmentId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Department" FromRole="Department" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="EmployeeId" />
+    </Key>
+    <Property Name="EmployeeId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EmployeeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EmployeeAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CompanyId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DepartmentId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Company" Relationship="Self.FK_Employee_Company" FromRole="Employee" ToRole="Company" />
+    <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
+    <NavigationProperty Name="EmployeeCourses" Relationship="Self.FK_EmployeeCourse_Employee" FromRole="Employee" ToRole="EmployeeCourse" />
+  </EntityType>
+  <EntityType Name="EmployeeCourse">
+    <Key>
+      <PropertyRef Name="EmployeeCourseId" />
+    </Key>
+    <Property Name="EmployeeCourseId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EmployeeId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CourseId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Course" Relationship="Self.FK_EmployeeCourse_EmployeeCourse" FromRole="EmployeeCourse" ToRole="Course" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_EmployeeCourse_Employee" FromRole="EmployeeCourse" ToRole="Employee" />
+  </EntityType>
+  <Association Name="FK_Employee_Company">
+    <End Role="Company" Type="Self.Company" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyId" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="CompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeeCourse_EmployeeCourse">
+    <End Role="Course" Type="Self.Course" Multiplicity="0..1" />
+    <End Role="EmployeeCourse" Type="Self.EmployeeCourse" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="CourseId" />
+      </Principal>
+      <Dependent Role="EmployeeCourse">
+        <PropertyRef Name="CourseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_Department">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="DepartmentId" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="DepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeeCourse_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="EmployeeCourse" Type="Self.EmployeeCourse" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="EmployeeId" />
+      </Principal>
+      <Dependent Role="EmployeeCourse">
+        <PropertyRef Name="EmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Practice2Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Companies" EntityType="Self.Company" />
+    <EntitySet Name="Courses" EntityType="Self.Course" />
+    <EntitySet Name="Departments" EntityType="Self.Department" />
+    <EntitySet Name="Employees" EntityType="Self.Employee" />
+    <EntitySet Name="EmployeeCourses" EntityType="Self.EmployeeCourse" />
+    <AssociationSet Name="FK_Employee_Company" Association="Self.FK_Employee_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="Employee" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeeCourse_EmployeeCourse" Association="Self.FK_EmployeeCourse_EmployeeCourse">
+      <End Role="Course" EntitySet="Courses" />
+      <End Role="EmployeeCourse" EntitySet="EmployeeCourses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_Department" Association="Self.FK_Employee_Department">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="Employee" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeeCourse_Employee" Association="Self.FK_EmployeeCourse_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="EmployeeCourse" EntitySet="EmployeeCourses" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
